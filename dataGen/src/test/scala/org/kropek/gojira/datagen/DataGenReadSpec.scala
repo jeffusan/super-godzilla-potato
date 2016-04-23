@@ -4,13 +4,15 @@ import java.io.File
 
 import com.typesafe.config.{Config, ConfigFactory}
 import org.specs2.mutable.Specification
-import org.kropek.gojira.datagen.Main.read
+
+import scalaz.effect.IO
+
 
 /**
  * Developer: jeffusan
  * Date: 4/23/16
  */
-class DataGenReadSpec extends Specification with GenSpecFuncs {
+class DataGenReadSpec extends Specification with ConfigReading {
   override def is =
     s2"""
 
@@ -20,14 +22,9 @@ class DataGenReadSpec extends Specification with GenSpecFuncs {
    contain 10 lines                                         $e1
                                                                  """
 
-  def e1 = read(config).unsafePerformIO() must have size (10)
+  def e1 = read(getConfig.unsafePerformIO()).unsafePerformIO() must have size (10)
 
-}
-
-
-trait GenSpecFuncs {
-
-  def config: Config = {
+  override def getConfig: IO[Config] = IO {
     ConfigFactory.parseFile(new File("dataGen/src/test/resources/testreference.conf"))
   }
 }

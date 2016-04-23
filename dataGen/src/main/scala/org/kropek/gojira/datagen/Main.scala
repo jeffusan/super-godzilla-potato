@@ -8,11 +8,7 @@ import org.kropek.gojira.datagen.db.DAO.DepthAndPoint
 import scalaz.effect.IO._
 import scalaz.effect.{IO, SafeApp}
 
-object Main extends SafeApp {
-
-  def getConfig: IO[Config] = IO {
-    ConfigFactory.load()
-  }
+object Main extends SafeApp with ConfigReading {
 
   override def runc = for {
     conf <- getConfig
@@ -21,6 +17,14 @@ object Main extends SafeApp {
     v <- DAO.insert(conf, dp)
     _ <- putStrLn(s"Results: $v")
   } yield ()
+
+}
+
+trait ConfigReading {
+
+  def getConfig: IO[Config] = IO {
+    ConfigFactory.load()
+  }
 
   def read(conf: Config): IO[List[DepthAndPoint]] = IO {
     scala.io.Source.fromFile(conf.as[String]("dataGen.input_source")).getLines().drop(1).map { line =>
@@ -39,6 +43,4 @@ object Main extends SafeApp {
       }
     }.filter(p => p.isDefined).map(b => b.get).toList
   }
-
-
 }
