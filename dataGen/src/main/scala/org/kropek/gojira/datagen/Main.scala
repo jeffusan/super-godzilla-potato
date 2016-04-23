@@ -14,8 +14,11 @@ object Main extends SafeApp with ConfigReading {
     conf <- getConfig
     dp <- read(conf)
     _ <- putStrLn(s"Processing ${dp.size.toString} entries")
-    v <- DAO.insert(conf, dp)
-    _ <- putStrLn(s"Results: $v")
+    results <- DAO.insert(dp)
+    _ <- putStrLn(s"Results: $results inserted")
+    id <- DAO.getIds
+    nearest <- DAO.getNearest(id)
+    _ <- putStrLn(s"Results: $nearest found")
   } yield ()
 
 }
