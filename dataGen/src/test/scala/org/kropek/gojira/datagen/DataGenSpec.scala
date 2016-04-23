@@ -17,5 +17,5 @@ object DataGenSpec extends Specification with AnalysisSpec {
     "org.postgresql.Driver", "jdbc:postgresql://192.168.99.101:25432/gis", "docker", "docker"
   )
 
-  check(trivial)
+  check(nearestFive(24, 24))
 }

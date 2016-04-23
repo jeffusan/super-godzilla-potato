@@ -29,14 +29,17 @@ object DAO {
     inserts(entities).transact(db).attempt
   }
 
+
   object Queries {
 
     val insertDepthAndPoint =
       "INSERT INTO japan_points (depth, location) VALUES (?, ST_SetSRID(st_makepoint(? ,?), 4326))"
 
-    val trivial = sql"""
-      select 42, 'foo'::varchar
-    """.query[(Int, String)]
+    def nearestFive(lat: Double, long: Double) = sql"""
+      select depth, ST_X(location), ST_Y(location) from japan_points
+      order by location  <-> ST_SetSRID(st_makepoint($lat ,$long), 4326) limit 5
+      """.query[DepthAndPoint]
+
   }
 
 }
