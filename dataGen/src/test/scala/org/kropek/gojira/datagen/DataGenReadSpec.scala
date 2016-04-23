@@ -8,10 +8,6 @@ import org.specs2.mutable.Specification
 import scalaz.effect.IO
 
 
-/**
- * Developer: jeffusan
- * Date: 4/23/16
- */
 class DataGenReadSpec extends Specification with ConfigReading {
   override def is =
     s2"""

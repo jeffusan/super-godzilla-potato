@@ -6,10 +6,7 @@ import scalaz._, Scalaz._
 import scalaz.effect.IO
 import net.ceedubs.ficus.Ficus._
 
-/**
- * Developer: jeffusan
- * Date: 4/23/16
- */
+
 object DAO {
 
   case class DepthAndPoint(depth: Int, lat: Double, long: Double)

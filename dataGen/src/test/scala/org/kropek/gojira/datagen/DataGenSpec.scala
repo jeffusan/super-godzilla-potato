@@ -7,10 +7,7 @@ import org.specs2.mutable.Specification
 
 import scalaz.concurrent.Task
 
-/**
- * Developer: jeffusan
- * Date: 4/23/16
- */
+
 object DataGenSpec extends Specification with AnalysisSpec {
 
   val transactor = DriverManagerTransactor[Task](
